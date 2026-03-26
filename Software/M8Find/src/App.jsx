@@ -1,5 +1,6 @@
 import './App.css'
 import logo from './assets/logo.PNG'
+import Button from "./components/button";
 
 function Home() {
   return (
@@ -10,8 +11,8 @@ function Home() {
           <img src={logo} alt="Logo" />
           <h1>M8Find</h1>
           <p>Welcome to M8Find!</p> 
-            <p><button className="button">Start</button></p>
-            <p><button className="button">About</button></p>
+            <p><Button>Start</Button></p>
+            <p><Button>About</Button></p>
         </div>
 
       </section>

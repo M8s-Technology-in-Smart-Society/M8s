@@ -6,9 +6,9 @@ function Home() {
   return (
     <>
         <div className='landingpagebox'>
-          <img src={logo} alt="Logo" />
+          <img src={logo} alt="Logo" className='img' />
           <h1>M8Find</h1>
-          <p>Welcome to M8Find!</p> 
+          <p><h2>Welcome to M8Find!</h2></p> 
             <Button>Start</Button>
             <Button>About</Button>
         </div>

@@ -1,38 +1,59 @@
-
 #center {
   display: flex;
-  justify-content: center;  
-  align-items: center;      
-  min-height: 100vh;        
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   text-align: center;
+  padding: 16px;
+  box-sizing: border-box;
 }
 
-.button{
+.button {
   background-color: #243f4b;
   color: white;
-  box-shadow: #243f4b;
-  font-size: 40px;
-  padding: 20px;
+  font-size: 1.5rem;
+  padding: 16px 20px;
   border-radius: 15px;
-  
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .button:hover {
-  background-color: #4e859d; /* Darker green on hover */
-  transform: scale(1.05);    /* Slightly enlarge on hover */
+  background-color: #4e859d;
+  transform: scale(1.05);
 }
 
-.landingpagebox{
+.landingpagebox {
   display: flex;
-  justify-content: center;  
-  align-items: center;            
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  max-height: 100px;
-  gap: 20px;
   flex-direction: column;
-  padding: 100px;
+  gap: 20px;
+  padding: 32px;
+  width: 100%;
+  max-width: 700px;
+  box-sizing: border-box;
+  margin: 0 auto;
 }
 
-.buttonGroup{
-  gap: 5px;
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .buttonGroup {
+    flex-direction: row;
+  }
+
+  .button {
+    font-size: 2rem;
+    padding: 20px 28px;
+  }
 }

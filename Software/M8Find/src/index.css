@@ -1,45 +1,48 @@
 :root {
   --text: #213d4a;
   --text-h: #213d4a;
-  --bg: linear-gradient(360deg, #2f5464, #5290AA,  #f0e9f6 70%);
+  --bg: linear-gradient(360deg, #2f5464, #5290AA, #f0e9f6 70%);
   --accent: #aa3bff;
+
   font-family: 'Trebuchet MS', sans-serif;
-  font-size: 40px; 
-  line-height: 50px;
+  font-size: 16px;
+  line-height: 1.5;
   color: var(--text);
 }
 
-
-@media (max-width: 1024px) {
-  :root {
-    font-size: 40px;
-  }
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --bg: #16171d;
-  }
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+  width: 100%;
 }
 
 body {
-  margin: 0;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: var(--bg);
 }
 
-
 h1 {
-  font-size: clamp(40px, 8vw, 100px); /* scales with viewport width */
+  color: var(--text-h);
+  font-size: clamp(3rem, 15vw, 8rem);
   margin: 20px 0;
+  text-align: center;
+  line-height: 0.0;
 }
-
-@media (max-width: 1024px) {
-  h1 {
-    font-size: 100px;
-    align-items: center;
-  }
+h2 {
+  color: var(--text-h);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  margin: 20px 0;
+  text-align: center;
 }

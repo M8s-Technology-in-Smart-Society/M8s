@@ -1,21 +1,12 @@
 :root {
   --text: #213d4a;
   --text-h: #213d4a;
-  --bg: linear-gradient(135deg, #5290AA, #f0e9f6);
+  --bg: linear-gradient(360deg, #2f5464, #5290AA,  #f0e9f6 70%);
   --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-
-
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  font-size: 600px;
-  font-weight: lighter;
-  line-height: 145%;
- word-spacing: 15%;
- letter-spacing: 15%;;
+  font-family: 'Trebuchet MS', sans-serif;
+  font-size: 40px; 
+  line-height: 50px;
   color: var(--text);
-  background: var(--bg);
 }
 
 
@@ -32,23 +23,23 @@
 }
 
 body {
-  align-items: center;
   margin: 0;
   min-height: 100vh;
-  background: linear-gradient(360deg, #5290AA, #ffffff);
-  background-repeat: no-repeat;
-  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg);
 }
 
+
 h1 {
-  font-size: 100px;
-  margin: 32px 0;
+  font-size: clamp(40px, 8vw, 100px); /* scales with viewport width */
+  margin: 20px 0;
 }
 
 @media (max-width: 1024px) {
   h1 {
     font-size: 100px;
     align-items: center;
-    margin: 20px 0;
   }
 }

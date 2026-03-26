@@ -21,3 +21,18 @@
   background-color: #4e859d; /* Darker green on hover */
   transform: scale(1.05);    /* Slightly enlarge on hover */
 }
+
+.landingpagebox{
+  display: flex;
+  justify-content: center;  
+  align-items: center;            
+  text-align: center;
+  max-height: 100px;
+  gap: 20px;
+  flex-direction: column;
+  padding: 100px;
+}
+
+.buttonGroup{
+  gap: 5px;
+}

@@ -3,9 +3,28 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  min-height: 100svh;
+  width: 100%;
+}
+
+.landingpagebox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  padding: 16px;
+  gap: 30px;
+  padding: 50px;
+  background-color: rgba(255, 255, 255, 0.383);
+  width: min(80%, 700px);
+  box-shadow: #243f4b4e;
+  margin: 50px;
   box-sizing: border-box;
+  border-radius: 50px;
+  border-width: 1px;
+  border-color: #ffffff5f;
+  border-style: solid;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.249);
 }
 
 .button {
@@ -20,22 +39,9 @@
 }
 
 .button:hover {
-  background-color: #4e859d;
+  background-color: #ffffff;
   transform: scale(1.05);
-}
-
-.landingpagebox {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  flex-direction: column;
-  gap: 20px;
-  padding: 32px;
-  width: 100%;
-  max-width: 700px;
-  box-sizing: border-box;
-  margin: 0 auto;
+  color: black;
 }
 
 .buttonGroup {

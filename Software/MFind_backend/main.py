@@ -1,6 +1,3 @@
-"""
-WEBSOCKET CONNECT FROM SENSOR
-
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 import json
 
@@ -19,4 +16,4 @@ async def sensor_ws(websocket: WebSocket):
                 "received": payload.get("id")
             })
     except WebSocketDisconnect:
-        print("Client disconnected")"""
+        print("Client disconnected")

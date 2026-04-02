@@ -10,7 +10,7 @@ function Start() {
       <h2>Instructions</h2>
       <p>Make sure your phone is securely mounted on the handle. </p>
       <p>Keep the handle connected to the wall surface. </p>
-      <Button className="connect-button" onClick={() => navigate('/')}>Connect</Button>
+      <Button className="connect-button" onClick={() => navigate('/connect')}>Connect</Button>
       <Button className="back-button" onClick={() => navigate('/')}>Back to Home</Button>
     </div>
   )

@@ -4,6 +4,7 @@ import Button from "./components/button"
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import About from './pages/About'
 import Start from './pages/Start'
+import Connect from './pages/Connect'
 
 function Home() {
   const navigate = useNavigate()
@@ -27,6 +28,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/start" element={<Start />} />
       <Route path="/about" element={<About />} />
+      <Route path="/connect" element={<Connect />} />
     </Routes>
   )
 }

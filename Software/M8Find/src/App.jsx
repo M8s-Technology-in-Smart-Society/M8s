@@ -3,6 +3,7 @@ import logo from './assets/logo.PNG'
 import Button from "./components/button"
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import About from './pages/About'
+import Start from './pages/Start'
 
 function Home() {
   const navigate = useNavigate()
@@ -13,7 +14,7 @@ function Home() {
         <img src={logo} alt="Logo" className="img" />
         <h1>M8Find</h1>
         <h2>Welcome to M8Find!</h2>
-        <Button>Start</Button>
+        <Button onClick={() => navigate('/start')}>Start</Button>
         <Button onClick={() => navigate('/about')}>About</Button>
       </div>
     </div>
@@ -24,6 +25,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/start" element={<Start />} />
       <Route path="/about" element={<About />} />
     </Routes>
   )

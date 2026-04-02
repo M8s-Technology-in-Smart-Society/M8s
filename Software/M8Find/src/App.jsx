@@ -5,6 +5,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom'
 import About from './pages/About'
 import Start from './pages/Start'
 import Connect from './pages/Connect'
+import WebGL from './pages/WebGL'
 
 function Home() {
   const navigate = useNavigate()
@@ -29,6 +30,7 @@ function App() {
       <Route path="/start" element={<Start />} />
       <Route path="/about" element={<About />} />
       <Route path="/connect" element={<Connect />} />
+      <Route path="/WebGL" element={<WebGL />} />
     </Routes>
   )
 }

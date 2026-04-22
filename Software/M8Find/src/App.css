@@ -53,6 +53,29 @@
   width: 100%;
 }
 
+.UI_container {
+  position: absolute;
+  background-color: #ffffff;
+  top: 0;
+  left: 0;
+  inset: 0;
+  align-content: flex-start;
+  align-items: flex-start;
+
+  width: 20%;
+  height: 20%;
+
+  z-index: 10;
+
+  pointer-events: none;
+}
+.ui-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
 @media (min-width: 768px) {
   .buttonGroup {
     flex-direction: row;

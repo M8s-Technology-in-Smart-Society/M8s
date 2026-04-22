@@ -5,18 +5,14 @@ import { OrbitControls } from "@react-three/drei";
 
 export default function WebGL() {
   return (
-    <div style={{ position: "relative", width: "100vw", height: "100vh" }}>
       
-      {/* 3D BACKGROUND */}
-      <div style={{ width: "100%", height: "100%" }}>
-        <WebGL_UI></WebGL_UI>
+      <div className="webgl_page">
+        <WebGL_UI />
         <WebGLCanvas>
           <Cube />
           <OrbitControls />
         </WebGLCanvas>
-
       </div>
 
-    </div>
   );
 }

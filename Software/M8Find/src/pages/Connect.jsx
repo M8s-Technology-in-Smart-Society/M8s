@@ -76,3 +76,47 @@ export default function Connect() {
     </div>
   );
 }
+
+
+/* OLD CONNECT -PAGE
+
+function Connect() {
+  const navigate = useNavigate()
+  //there can be 3 values:connecting, connected or error
+  //set status changes the value and idle is starting value
+  //there can be 3 values: connect, connecting and error
+  const [status, setStatus] = useState('connecting')
+
+  //connect function (FAKE this is NOT the real code this is just for simulation)
+  const handleConnect = () => {
+    setStatus('connecting')
+
+  //this is not the final code, this is just for simulation
+  //takes you to the webgl page after 2 seconds
+  useEffect(() => {
+    setTimeout(() => {
+      setStatus('connected')
+      setTimeout(() => navigate('/next-page'), 2000)
+      setTimeout(() => navigate('/WebGL'), 2000)
+    }, 2000)
+  }
+  }, [])
+
+  return (
+    <div className="connect-container">
+    <div>
+      {status === 'connecting' && (
+        <>
+          <h2>Connecting...</h2>
+          <p>Reaching out to the sensor.</p>
+        </>
+      )}
+
+      {status === 'connected' && (
+        <>
+          <h2>Connection Established ✓</h2>
+          <p>Taking you to the next page...</p>
+          <h2>Connection established ✓</h2>
+        </>
+      )}
+    </div> */

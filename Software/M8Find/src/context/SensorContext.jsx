@@ -7,7 +7,7 @@ export function SensorProvider({ children }) {
   const [status, setStatus] = useState("Disconnected");
 
   useEffect(() => {
-    const ESP_IP = "ws://192.168.1.16/";
+    const ESP_IP = "ws://172.20.10.3/"; //tarkista arduinosta, että IP on oikea
     let ws;
     let cancelled = false;
 

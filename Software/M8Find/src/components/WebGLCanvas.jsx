@@ -6,7 +6,7 @@ import { Children } from 'react';
 
 export default function WebGLCanvas({children}) {
   const navigate = useNavigate();
-
+//Tänne väripallerot etäisyyden mukaan
   return (
     <div className="webgl_page">
       <div className="canvas_layer">

@@ -30,7 +30,7 @@ export default function WebGL_UI({ distance, status }) {
   const navigate = useNavigate();
 
   const statusColor =
-    status === "Connected" ? "#4ade80" :
+    status === "Connected" ? "#156015" :
     status === "Error"     ? "#f87171" : "#facc15";
 
   return (

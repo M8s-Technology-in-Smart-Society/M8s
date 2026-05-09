@@ -13,11 +13,10 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  gap: 30px;
+  gap: 35px;
   padding: 50px;
   background-color: rgba(255, 255, 255, 0.383);
   width: min(80%, 700px);
-  box-shadow: #243f4b4e;
   margin: 50px;
   box-sizing: border-box;
   border-radius: 50px;
@@ -87,9 +86,6 @@
   box-shadow: 0 8px 24px rgb(0 0 0 / 0.18);
 }
 
-.UI_container {
-  gap: 8px;
-}
 
 .UI_container h2 {
   margin: 0;
@@ -101,11 +97,30 @@
   line-height: 1.1;
 }
 
+.instructionbox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 5px;
+  padding: 50px;
+  background-color: rgba(255, 255, 255, 0.383);
+  margin: 50px;
+  box-sizing: border-box;
+  border-radius: 50px;
+  border-width: 1px;
+  border-color: #ffffff5f;
+  border-style: solid;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.249);
+
+}
 
 
 @media (min-width: 768px) {
   .buttonGroup {
     flex-direction: row;
+    gap: 8px;
   }
 
   .button {

@@ -5,7 +5,7 @@
   --accent: #aa3bff;
 
   font-family: 'Trebuchet MS', sans-serif;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 1.5;
   color: var(--text);
 }
@@ -32,6 +32,7 @@ body,
 
 body {
   background: var(--bg);
+  font-size: 25px;
 }
 
 h1 {
@@ -46,6 +47,11 @@ h2 {
   font-size: clamp(1.5rem, 4vw, 2rem);
   margin: 20px 0;
   text-align: center;
+}
+
+.body-text {
+  font-size: 4rem;
+  line-height: 1.5;
 }
 
 

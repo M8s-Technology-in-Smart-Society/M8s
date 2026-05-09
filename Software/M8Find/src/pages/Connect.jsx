@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSensor } from "../context/SensorContext";
-import "./Connect.css";
+import "../App.css";
 import Button from "../components/button";
 
 export default function Connect() {
@@ -34,7 +34,8 @@ export default function Connect() {
   const showError = status === "Error" || showTimeoutError;
 
   return (
-    <div className="connect-container">
+    <div id="center">
+    <div className="instructionbox">
       <div>
         {!showError && status !== "Connected" && (
           <>
@@ -60,5 +61,6 @@ export default function Connect() {
         )}
       </div>
     </div>
+  </div>
   );
 }

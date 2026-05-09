@@ -9,7 +9,7 @@ function Start() {
   <div id="center">
   <div className="instructionbox"> 
         <h2>Instructions</h2>
-        <p>Make sure your phone is securely mounted on the handle. </p>
+        <p>Make sure your phone is securely mounted on the handle.</p>
         <p>Keep the handle connected to the wall surface. </p>
   </div>
 

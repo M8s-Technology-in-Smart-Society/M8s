@@ -154,10 +154,10 @@
   .landingpagebox,
   .instructionbox {
     width: min(100vw, 500px);
-    height: min (100vw, 100px);
+    height: min (100vw, 50px);
     padding: 30px;
     margin: 5px;
-    gap: 5px;
+    gap: 1px;
     border-radius: 24px;
   }
 
@@ -171,10 +171,15 @@
     margin: 8px 0;
   }
 
+  h3 {
+  font-size: clamp(1rem, 3vw, 1.6rem);
+  margin: 8px 0;
+  line-height: 1.4;
+  }
+
   p {
     font-size: 1rem;
     line-height: 1.4;
-    margin: 0;
   }
 
   .buttonGroup {

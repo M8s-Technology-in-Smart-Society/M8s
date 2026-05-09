@@ -55,8 +55,11 @@ export default function Connect() {
           <>
             <div><h2>Connection error ❌</h2></div>
             
-              <div>Please check the sensor and make sure that the IP address is configured correctly.</div>
-            <p><Button className="connect-button" onClick={() => window.location.reload()}>Try again</Button></p>
+              <p>Please check the sensor and make sure that the IP address is configured correctly.</p>
+              <div></div>
+              <div className= "buttonGroup">
+                <Button onClick={() => window.location.reload()}>Try again</Button>
+                <Button onClick={() => navigate('/home')}>Back to Home</Button></div>
           </>
         )}
       </div>

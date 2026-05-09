@@ -7,6 +7,7 @@ function About() {
 
   return (
   <div id="center">
+    <div></div>
     <div className="instructionbox"> 
         <h2>About</h2>
         <p>This app was made part of a Blended Intensive Program (BIP) project during Spring term 2026. </p></div>

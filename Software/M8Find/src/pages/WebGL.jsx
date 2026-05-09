@@ -1,6 +1,7 @@
 import WebGL_UI from "../components/WebGL_UI";
 import WebGLCanvas from "../components/WebGLCanvas";
-import Cube from "../components/TESTcube";
+import DistanceCircle from "../components/DistanceVisuals";
+
 import { OrbitControls } from "@react-three/drei";
 import { useSensor } from "../context/SensorContext";
 
@@ -11,7 +12,7 @@ export default function WebGL() {
     <div className="webgl_page">
       <WebGL_UI distance={distance} status={status} />
       <WebGLCanvas>
-        <Cube distance={distance} />
+        <DistanceCircle distance={distance} />
         <OrbitControls />
       </WebGLCanvas>
     </div>

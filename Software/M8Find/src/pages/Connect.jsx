@@ -25,6 +25,7 @@ export default function Connect() {
             <p>Reaching out to the sensor.</p>
           </>
         )}
+        
 
         {status === "Connected" && (
           <>

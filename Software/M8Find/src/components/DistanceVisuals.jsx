@@ -1,4 +1,5 @@
 import { useMemo, useRef } from "react";
+//useMemo = caches a computed value, so keeps the previous value as long as the distance doesnt change
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -15,12 +16,12 @@ function DistanceVisuals(distance) {
   if (d < 10) color = "#ef4444";      // red
   else if (d < 20) color = "#f59e0b"; // orange
   else if (d < 30) color = "#22c55e"; // green
-  else if (d < 50) color = "#0d0085"; // green
-  const scale = 1.5 - (d / 100) * 2; //scale of the circle with respect the distance
+  else if (d < 50) color = "#0d0085"; // blue
+  const scale = 2.5 - (d / 100) * 2; //scale of the circle with respect the distance
 
   return {
     color,
-    scale: clamp(scale, 0.5, 2.5),
+    scale: clamp(scale, 0.5, 1.5),
   };
 }
 
@@ -42,13 +43,16 @@ export default function DistanceCircle({ distance }) {
   });
 
   return (
-    <mesh ref={meshRef} position={[0, 0, 0]}>
+    //Visual specs for the circle
+    //position gives the sideways shift of the visual to not get hidden beneath the UI-box
+    //sphereGeometry: [radius, widhth segments, height segments], the more segments, the less blocky the circle is
+    <mesh ref={meshRef} position={[1.4, 0, 0]}> 
       <sphereGeometry args={[1, 64, 64]} />
       <meshStandardMaterial
         ref={materialRef}
         color="#ffffff"
         emissive={target.color}
-        emissiveIntensity={0.25}
+        emissiveIntensity={0}
       />
     </mesh>
   );

@@ -16,11 +16,13 @@ function Home() {
         <img src={logo} alt="Logo" className="img" />
         <h1>M8Find</h1>
         <h2>Welcome to M8Find!</h2>
-        <Button onClick={() => navigate('/start')}>Start</Button>
-        <Button onClick={() => navigate('/about')}>About</Button>
+          <div className="buttonGroup">
+            <Button onClick={() => navigate('/start')}>Start</Button>
+            <Button onClick={() => navigate('/about')}>About</Button>
+          </div>
       </div>
     </div>
-  )
+  ) 
 }
 
 function App() {

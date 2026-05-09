@@ -9,7 +9,9 @@ function About() {
   <div id="center">
     <div className="instructionbox"> 
         <h2>About</h2>
-        <p>This app was made part of a Blended Intensive Program (BIP) project during Spring term 2026. </p>
+        <p>This app was made part of a Blended Intensive Program (BIP) project during Spring term 2026. </p></div>
+        
+    <div className="instructionbox">  
         <div className="credits">
             <h2>M8's:</h2>
             <p style={{ fontWeight: "bold"}}>Fontys University of Applied Sciences</p> 
@@ -22,9 +24,11 @@ function About() {
             <p>Maija Kuusela,</p> 
             <p>Saara Iltanen</p>
           </div>
-            <Button className="buttonGroup" onClick={() => navigate('/')}>Back to Home</Button>
     </div>
-  </div>
+    <Button className="buttonGroup" onClick={() => navigate('/')}>Back to Home</Button>
+    <div></div>
+    </div>
+  
   )
 }
 

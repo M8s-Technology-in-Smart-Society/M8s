@@ -1,3 +1,7 @@
+/*===========================================================================================*/
+/*_______________________________BASIC LAYOUT CSS____________________________________________*/
+/*===========================================================================================*/
+
 #center {
   display: flex;
   justify-content: center;
@@ -26,6 +30,34 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.249);
 }
 
+.instructionbox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 50px;
+  gap: 1px;
+  background-color: rgba(255, 255, 255, 0.383);
+  margin: 50px;
+  box-sizing: border-box;
+  border-radius: 50px;
+  border-width: 1px;
+  border-color: #ffffff5f;
+  border-style: solid;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.249);
+  line-height: 1.5;
+}
+
+.credits {
+  line-height: 1;
+  font-style: italic;
+}
+
+/*===========================================================================================*/
+/*_______________________________BUTTON CSS__________________________________________________*/
+/*===========================================================================================*/
+
 .button {
   background-color: #243f4b;
   color: white;
@@ -51,6 +83,10 @@
   gap: 12px;
   width: 100%;
 }
+
+/*===========================================================================================*/
+/*_______________________________VISUAL RENDER CSS___________________________________________*/
+/*===========================================================================================*/
 
 .webgl_page {
   position: fixed;
@@ -84,38 +120,23 @@
   align-items: start;
   gap: 16px;
   box-shadow: 0 8px 24px rgb(0 0 0 / 0.18);
+  font-size: 30px;
+  line-height: 1.5px;
 }
-
 
 .UI_container h2 {
   margin: 0;
-  line-height: 1.05;
+  line-height: 1.5;
 }
 
 .UI_container h5 {
   margin: 0;
-  line-height: 1.1;
+  line-height: 1.5;
 }
 
-.instructionbox {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  gap: 5px;
-  padding: 50px;
-  background-color: rgba(255, 255, 255, 0.383);
-  margin: 50px;
-  box-sizing: border-box;
-  border-radius: 50px;
-  border-width: 1px;
-  border-color: #ffffff5f;
-  border-style: solid;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.249);
-
-}
-
+/*===========================================================================================*/
+/*_______________________________MOBILE RELATED CSS__________________________________________*/
+/*===========================================================================================*/
 
 @media (min-width: 768px) {
   .buttonGroup {

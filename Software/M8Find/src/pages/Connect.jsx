@@ -39,7 +39,7 @@ export default function Connect() {
       <div>
         {!showError && status !== "Connected" && (
           <>
-            <h2>Connecting...</h2>
+            <div><h2>Connecting...</h2></div>
             <p>Reaching out to the sensor.</p>
           </>
         )}
@@ -53,9 +53,9 @@ export default function Connect() {
 
         {showError && (
           <>
-            <h2>Connection error ❌</h2>
-            <p>
-              Please check the sensor and make sure that the IP address is configured correctly.  </p>
+            <div><h2>Connection error ❌</h2></div>
+            
+              <div>Please check the sensor and make sure that the IP address is configured correctly.</div>
             <p><Button className="connect-button" onClick={() => window.location.reload()}>Try again</Button></p>
           </>
         )}

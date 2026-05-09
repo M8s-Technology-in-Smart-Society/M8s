@@ -17,11 +17,11 @@ function DistanceVisuals(distance) {
   else if (d < 20) color = "#f59e0b"; // orange
   else if (d < 30) color = "#22c55e"; // green
   else if (d < 50) color = "#0d0085"; // blue
-  const scale = 2.5 - (d / 100) * 2; //scale of the circle with respect the distance
+  const scale = 1.5 - (d / 100) * 2; //scale of the circle with respect the distance
 
   return {
     color,
-    scale: clamp(scale, 0.5, 1.5),
+    scale: clamp(scale, 0.5, 2.5),
   };
 }
 

@@ -1,36 +1,61 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSensor } from "../context/SensorContext";
 import "./Connect.css";
+import Button from "../components/button";
 
 export default function Connect() {
   const navigate = useNavigate();
   const { status } = useSensor();
+  const [showTimeoutError, setShowTimeoutError] = useState(false);
 
   useEffect(() => {
+    let timer;
+
+    setShowTimeoutError(false);
+
     if (status === "Connected") {
-      const timer = setTimeout(() => {
+      timer = setTimeout(() => {
         navigate("/WebGL");
       }, 2000);
+
       return () => clearTimeout(timer);
     }
-  }, [status]);
+
+    if (status !== "Connected") {
+      timer = setTimeout(() => {
+        setShowTimeoutError(true);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [status, navigate]);
+
+  const showError = status === "Error" || showTimeoutError;
 
   return (
     <div className="connect-container">
       <div>
-        {status !== "Connected" && (
+        {!showError && status !== "Connected" && (
           <>
             <h2>Connecting...</h2>
             <p>Reaching out to the sensor.</p>
           </>
         )}
-        
 
         {status === "Connected" && (
           <>
-            <h2>Connection Established ✓</h2>
-            <p>Taking you to the next page...</p>
+            <h2>Connection Established ✅</h2>
+            <p>Visuals loading...</p>
+          </>
+        )}
+
+        {showError && (
+          <>
+            <h2>Connection error ❌</h2>
+            <p>
+              Please check the sensor and make sure that the IP address is configured correctly.  </p>
+            <p><Button className="connect-button" onClick={() => window.location.reload()}>Try again</Button></p>
           </>
         )}
       </div>

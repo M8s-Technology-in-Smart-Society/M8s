@@ -24,11 +24,13 @@ function About() {
             <p style={{ fontWeight: "bold"}}>Lapland University of Applied Sciences</p> 
             <p>Maija Kuusela,</p> 
             <p>Saara Iltanen</p>
-          </div>
+
     </div>
     <Button className="buttonGroup" onClick={() => navigate('/')}>Back to Home</Button>
     <div></div>
     </div>
+          </div>
+
   
   )
 }

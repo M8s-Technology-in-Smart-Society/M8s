@@ -9,14 +9,14 @@ function Start() {
   <div id="center">
   <div className="instructionbox"> 
         <h2>Instructions</h2>
-        <p>Make sure your phone is securely mounted on the handle.</p>
-        <p>Keep the handle connected to the wall surface. </p>
-  </div>
-
+        <p>Make sure your phone is horizontally mounted on the handle. Keep the handle connected to the wall surface. </p>
+      
       <div className= "buttonGroup">
         <Button onClick={() => navigate('/connect')}>Connect</Button>
         <Button onClick={() => navigate('/')}>Back to Home</Button>
       </div> 
+  </div>
+
       </div>
   )
 }

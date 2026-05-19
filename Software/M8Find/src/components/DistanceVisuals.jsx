@@ -13,19 +13,33 @@ function remap(value, inMin, inMax, outMin, outMax) {
 }
 
 function getVisualsFromZ(z) {
-  const d = clamp(z ?? 5, -5, 5);
+  const d = clamp(z ?? 5, 0, 7);
 
   let color = "#ffffff";
+  let scale = 1.0;
 
-  if (d < 1) color = "#ef4444";                 // red
-  else if (d >= 1 && d < 2) color = "#eb6912"; // orange
-  else if (d >= 2 && d < 3) color = "#fff70d"; // yellow
-  else if (d >= 3 && d < 4) color = "#22c55e"; // green
-  else if (d >= 4 && d < 5) color = "#0023bd"; // blue
-  else if (d >= 5 && d < 7) color = "#07d6ff"; // cyan
-  else color = "#be00a1";                       // farthest
-
-  const scale = 2 - d * 0.1;
+  if (d < 1) {
+    color = "#ef4444";
+    scale = 5;
+  } else if (d >= 1 && d < 2) {
+    color = "#eb6912";
+    scale = 4;
+  } else if (d >= 2 && d < 3) {
+    color = "#fff70d";
+    scale = 3;
+  } else if (d >= 3 && d < 4) {
+    color = "#22c55e";
+    scale = 2;
+  } else if (d >= 4 && d < 5) {
+    color = "#0023bd";
+    scale = 1.0;
+  } else if (d >= 5 && d < 7) {
+    color = "#07d6ff";
+    scale = 0.5;
+  } else {
+    color = "#be00a1";
+    scale = 0.5;
+  }
 
   return {
     color,

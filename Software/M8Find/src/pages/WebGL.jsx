@@ -1,4 +1,3 @@
-import { OrbitControls } from "@react-three/drei";
 import DetectionTracker from "../components/DetectionTracker";
 import WebGLCanvas from "../components/WebGLCanvas";
 import WebGL_UI from "../components/WebGL_UI";
@@ -9,7 +8,6 @@ export default function WebGLScene() {
       <div className="canvas_layer">
         <WebGLCanvas>
           <DetectionTracker />
-          <OrbitControls />
         </WebGLCanvas>
       </div>
 

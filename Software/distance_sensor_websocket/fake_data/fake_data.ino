@@ -143,7 +143,7 @@ void loop() {
           viimeLahetys = millis();
         }
 
-        delay(1000);
+        delay(500);
       }
 
       Serial.println("Yhteys katkaistu");

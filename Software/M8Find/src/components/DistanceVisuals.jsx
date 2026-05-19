@@ -11,10 +11,10 @@ function getVisualsFromZ(z) {
   const d = clamp(z ?? 5, 0, 5);
 
   let color = "#ffffff";
-  if (d < 1) color = "#ef4444";       // red = near
-  else if (d < 2) color = "#f59e0b";  // orange
-  else if (d < 3) color = "#eab308";  // yellow
-  else if (d < 4) color = "#22c55e";  // green
+  if (d < 0.5) color = "#ef4444";       // red = near
+  else if (d < 1) color = "#eb6912";  // orange
+  else if (d < 1.5) color = "#fff70d";  // yellow
+  else if (d < 2) color = "#22c55e";  // green
   else color = "#0d0085";             // blue = far
 
   const scale = 1.6 - d * 0.2;

@@ -61,6 +61,10 @@ void paivitaMockKoordinaatit() {
   yPos = rajoitaArvo(yPos, -50.0, 50.0);
   zPos = rajoitaArvo(zPos, 0.0, 10.0);
 }
+//TODO: if z-distance changes, the frontend generates a new target on the interface. Z-distance used as the parameter to determine a new object
+//7m maximum (ideal distance with the best results
+//z-axis change--> värin muutos, koon muutos
+//x ja y axis --> liikkuminen näytöllä, range määritys frontissa
 
 String muodostaJson() {
   paivitaMockKoordinaatit();
@@ -70,7 +74,7 @@ String muodostaJson() {
 
   StaticJsonDocument<512> json;
   json["type"] = "radio-coordinates";
-  json["sensorModel"] = "XMF-25";
+  json["sensorModel"] = "XM-125";
   json["source"] = "esp32-mock";
   json["seq"] = seq;
   json["timestampMs"] = millis();

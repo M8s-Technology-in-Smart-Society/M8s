@@ -1,35 +1,14 @@
-import '../App.css'
-import Button from '../components/button'
-import { useNavigate } from 'react-router-dom'
-import { Canvas } from '@react-three/fiber'
-import { Children } from 'react';
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
+import DetectionTracker from "./DetectionTracker";
 
-export default function WebGLCanvas({children}) {
-  const navigate = useNavigate();
-//Tänne väripallerot etäisyyden mukaan
+export default function WebGLScene() {
   return (
-    <div className="webgl_page">
-      <div className="canvas_layer">
-        <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
-        <color attach="background" args={["black"]} />
-        <ambientLight intensity={0.8} />
-        <directionalLight position={[5, 5, 5]} intensity={1.5} />
-        {children}
-        </Canvas>
-      </div>
-   </div>
+    <Canvas camera={{ position: [0, 0, 12], fov: 50 }}>
+      <ambientLight intensity={0.8} />
+      <pointLight position={[10, 10, 10]} intensity={1.2} />
+      <DetectionTracker />
+      <OrbitControls />
+    </Canvas>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

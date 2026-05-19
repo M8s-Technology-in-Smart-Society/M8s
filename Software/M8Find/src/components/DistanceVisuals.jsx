@@ -1,5 +1,5 @@
 import { useMemo, useRef } from "react";
-//useMemo = caches a computed value, so keeps the previous value as long as the distance doesnt change
+import { Text } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -7,32 +7,46 @@ function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
 }
 
-function DistanceVisuals(distance) {
+function getVisualsFromZ(z) {
+  const d = clamp(z ?? 5, 0, 5);
 
-  const d = clamp(distance ?? 100, 0, 100); //Limits for the maximum and minimun distance
+  let color = "#ffffff";
+  if (d < 1) color = "#ef4444";       // red = near
+  else if (d < 2) color = "#f59e0b";  // orange
+  else if (d < 3) color = "#eab308";  // yellow
+  else if (d < 4) color = "#22c55e";  // green
+  else color = "#0d0085";             // blue = far
 
-  let color = "#ffffff"; //default when the distance gets over the limit
-  //These give the colors depending on the distance
-  if (d < 10) color = "#ef4444";      // red
-  else if (d < 20) color = "#f59e0b"; // orange
-  else if (d < 30) color = "#22c55e"; // green
-  else if (d < 50) color = "#0d0085"; // blue
-  const scale = 1.5 - (d / 100) * 2; //scale of the circle with respect the distance
+  const scale = 1.6 - d * 0.2;
 
   return {
     color,
-    scale: clamp(scale, 0.5, 2.5),
+    scale: clamp(scale, 0.5, 2.2),
   };
 }
 
-export default function DistanceCircle({ distance }) {
+function DetectionSphere({ detection, index }) {
   const meshRef = useRef();
   const materialRef = useRef();
 
-  const target = useMemo(() => DistanceVisuals(distance), [distance]);
+  const target = useMemo(() => {
+    const visuals = getVisualsFromZ(detection.z);
+
+    return {
+      color: visuals.color,
+      scale: visuals.scale,
+      position: new THREE.Vector3(
+        detection.x + 1.4,
+        detection.y,
+        detection.z
+      ),
+    };
+  }, [detection]);
 
   useFrame(() => {
     if (!meshRef.current || !materialRef.current) return;
+
+    meshRef.current.position.lerp(target.position, 0.12);
 
     meshRef.current.scale.lerp(
       new THREE.Vector3(target.scale, target.scale, target.scale),
@@ -40,20 +54,44 @@ export default function DistanceCircle({ distance }) {
     );
 
     materialRef.current.color.lerp(new THREE.Color(target.color), 0.12);
+    materialRef.current.emissive.lerp(new THREE.Color(target.color), 0.12);
   });
 
   return (
-    //Visual specs for the circle
-    //position gives the sideways shift of the visual to not get hidden beneath the UI-box
-    //sphereGeometry: [radius, widhth segments, height segments], the more segments, the less blocky the circle is
-    <mesh ref={meshRef} position={[1.4, 0, 0]}> 
-      <sphereGeometry args={[1, 64, 64]} />
-      <meshStandardMaterial
-        ref={materialRef}
-        color="#ffffff"
-        emissive={target.color}
-        emissiveIntensity={0}
-      />
-    </mesh>
+    <group>
+      <mesh ref={meshRef}>
+        <sphereGeometry args={[0.6, 64, 64]} />
+        <meshStandardMaterial
+          ref={materialRef}
+          color="#ffffff"
+          emissive={target.color}
+          emissiveIntensity={0.25}
+        />
+      </mesh>
+
+      <Text
+        position={[detection.x + 1.4, detection.y + 0.95, detection.z]}
+        fontSize={0.3}
+        color="white"
+        anchorX="center"
+        anchorY="middle"
+      >
+        {index + 1}
+      </Text>
+    </group>
+  );
+}
+
+export default function DistanceVisuals({ detections }) {
+  return (
+    <>
+      {detections.map((detection, index) => (
+        <DetectionSphere
+          key={detection.id}
+          detection={detection}
+          index={index}
+        />
+      ))}
+    </>
   );
 }

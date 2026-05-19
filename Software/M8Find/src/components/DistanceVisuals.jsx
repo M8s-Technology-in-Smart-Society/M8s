@@ -13,14 +13,17 @@ function remap(value, inMin, inMax, outMin, outMax) {
 }
 
 function getVisualsFromZ(z) {
-  const d = clamp(z ?? 5, 0, 5);
+  const d = clamp(z ?? 5, -5, 5);
 
   let color = "#ffffff";
-  if (d < 1) color = "#ef4444";      // red = near
-  else if (d > 1 < 2) color = "#eb6912";   // orange
-  else if (d > 2 < 3) color = "#fff70d"; // yellow
-  else if (d > 3 < 4) color = "#22c55e";   // green
-  else color = "#ffffff";              // blue = far
+
+  if (d < 1) color = "#ef4444";                 // red
+  else if (d >= 1 && d < 2) color = "#eb6912"; // orange
+  else if (d >= 2 && d < 3) color = "#fff70d"; // yellow
+  else if (d >= 3 && d < 4) color = "#22c55e"; // green
+  else if (d >= 4 && d < 5) color = "#0023bd"; // blue
+  else if (d >= 5 && d < 7) color = "#07d6ff"; // cyan
+  else color = "#be00a1";                       // farthest
 
   const scale = 2 - d * 0.1;
 
@@ -32,12 +35,12 @@ function getVisualsFromZ(z) {
 
 // Expected incoming coordinate range from sensor/mock feed
 const SENSOR_BOUNDS = {
-  minX: 0,
-  maxX: 40,
-  minY: -10,
-  maxY: 10,
+  minX: -50,
+  maxX: 50,
+  minY: -50,
+  maxY: 50,
   minZ: 0,
-  maxZ: 5,
+  maxZ: 10,
 };
 
 // Visual area in the 3D scene, shifted to the right side
@@ -77,8 +80,8 @@ function DetectionSphere({ detection, index }) {
       detection.z,
       SENSOR_BOUNDS.minZ,
       SENSOR_BOUNDS.maxZ,
-      SCENE_BOUNDS.minZ,
-      SCENE_BOUNDS.maxZ
+      SCENE_BOUNDS.maxZ,
+      SCENE_BOUNDS.minZ
     );
 
     return {

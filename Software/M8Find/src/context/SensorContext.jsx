@@ -22,7 +22,8 @@ export function SensorProvider({ children }) {
   const [audioTimestampMs, setAudioTimestampMs] = useState(null);
 
   useEffect(() => {
-    const ESP_IP = "ws://172.20.10.9/";
+    // Používame potvrdenú IP 172.20.10.7
+    const ESP_IP = "ws://172.20.10.7:8080/ws";
     let ws;
     let cancelled = false;
     let reconnectTimer;
@@ -42,24 +43,39 @@ export function SensorProvider({ children }) {
           const data = JSON.parse(event.data);
           console.log("PARSED:", data);
 
-          if (data.type !== undefined) setType(data.type);
-          if (data.sensorModel !== undefined) setSensorModel(data.sensorModel);
+          // XM125 BACKEND LOGIKA
           if (data.source !== undefined) setSource(data.source);
-          if (data.seq !== undefined) setSeq(Number(data.seq));
-          if (data.timestampMs !== undefined) setTimestampMs(Number(data.timestampMs));
-          if (data.valid !== undefined) setValid(Boolean(data.valid));
-          if (data.x !== undefined) setX(Number(data.x));
-          if (data.y !== undefined) setY(Number(data.y));
-          if (data.z !== undefined) setZ(Number(data.z));
-          if (data.rssi !== undefined) setRSSI(Number(data.rssi));
+          
+          // Správne preberanie stavu detekcie
+          if (data.status !== undefined) setStatus(data.status);
 
-          //AUDIO
+          // Bezpečnejšie spracovanie distance_m
+          if (data.distance_m !== undefined) {
+            setX(data.distance_m !== null ? Number(data.distance_m) : null);
+          }
+
+          if (data.confidence !== undefined) {
+            setY(Number(data.confidence));
+          }
+
+          if (data.presence !== undefined) {
+            setZ(data.distance_m ?? 5);
+          }
+
+          if (data.raw?.inter_presence_score !== undefined && data.raw.inter_presence_score !== null) {
+            setRSSI(Number(data.raw.inter_presence_score));
+          }
+
+          // Dynamický model na základe režimu
+          setSensorModel(`XM125 A121 (${data.mode ?? "unknown"})`);
+
+          // AUDIO PLACEHOLDER
           if (data.type === "audio-angle") {
-          setAudioAngleDeg(Math.max(-90, Math.min(90, Number(data.angle) || 0)));
-          setAudioEnergy(Number(data.energy) || 0);
-          setAudioLag(Number(data.lag) || 0);
-          setAudioTimestampMs(data.timestampMs ?? null);
-        }
+            setAudioAngleDeg(Math.max(-90, Math.min(90, Number(data.angle) || 0)));
+            setAudioEnergy(Number(data.energy) || 0);
+            setAudioLag(Number(data.lag) || 0);
+            setAudioTimestampMs(data.timestampMs ?? null);
+          }
         } catch (error) {
           console.error("Message handling failed:", error, event.data);
         }

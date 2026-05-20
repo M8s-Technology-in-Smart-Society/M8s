@@ -49,12 +49,14 @@ function getVisualsFromZ(z) {
 
 // Expected incoming coordinate range from sensor/mock feed
 const SENSOR_BOUNDS = {
-  minX: -50,
-  maxX: 50,
-  minY: -50,
-  maxY: 50,
+  minX: 0,
+  maxX: 2.5,
+
+  minY: 0,
+  maxY: 100,
+
   minZ: 0,
-  maxZ: 10,
+  maxZ: 1,
 };
 
 // Visual area in the 3D scene, shifted to the right side

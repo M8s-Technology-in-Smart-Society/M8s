@@ -103,47 +103,54 @@
 .webgl_page {
   position: fixed;
   inset: 0;
-  height: 100vh;
-  height: 100dvh;
   width: 100vw;
+  height: 100dvh;
   overflow: hidden;
 }
+
 .canvas_layer {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
 }
-
-.UI_container {
+.UI {
   position: absolute;
-  width: 320px;
-  height: auto;
   top: 20px;
   left: 20px;
+  bottom: 20px;
   z-index: 10;
-  line-height: 0.5;
-  width: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: clamp(220px, 28vw, 320px);
+  gap: 10px;
+  pointer-events: none;
+}
+
+.UI_container,
+.UIA_container {
   padding: 20px;
   border-radius: 16px;
   background: rgb(255 255 255 / 78%);
   backdrop-filter: blur(8px);
-  justify-content: flex-start;
-  align-items: start;
-  gap: 16px;
   box-shadow: 0 8px 24px rgb(0 0 0 / 0.18);
-  font-size: 30px;
-  line-height: 1.5px;
+  font-size: 12px;
+  line-height: 1.3;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: auto;
 }
 
-.UI_container h2 {
-  margin: 0;
-  line-height: 1.5;
+.UI_container {
+  top: 20px;
+  left: 20px;
 }
 
-.UI_container h5 {
-  margin: 0;
-  line-height: 1.5;
+.UIA_container {
+  bottom: 20px;
+  left: 20px;
 }
 
 /*===========================================================================================*/
@@ -193,23 +200,59 @@
     padding: 12px 16px;
   }
 
-  .UI_container {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 220px;
-    padding: 12px;
-    font-size: 14px;
+  .UIButton{
+      font-size: 10px;
+      padding: 12px 16px;
+      
   }
 
-  .UI_container h2 {
-    font-size: 1rem;
-  }
+.UI {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  bottom: 10px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 8px;
+  width: min(180px, calc(100vw - 20px));
+  max-height: calc(100dvh - 20px);
+  overflow-y: auto;
+  min-height: 0;
+  pointer-events: none;
+}
 
-  .UI_container h5 {
-    font-size: 0.8rem;
-    line-height: 1.3;
-  }
+.UI_container,
+.UIA_container {
+  padding: 5px 5px;
+  border-radius: 12px;
+  background: rgb(255 255 255 / 78%);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 6px 16px rgb(0 0 0 / 0.14);
+  font-size: 11px;
+  line-height: 1.15;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  pointer-events: auto;
+  flex-shrink: 0;
+}
+
+.UI_container h3,
+.UIA_container h3 {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+.UI_container h5,
+.UIA_container h5 {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.15;
+  font-weight: 500;
+}
 
   .img {
     width: clamp(120px, 28vw, 220px);
@@ -227,5 +270,8 @@
   width: 100%;
   gap: 20px
 }
+
+
+
 
 }

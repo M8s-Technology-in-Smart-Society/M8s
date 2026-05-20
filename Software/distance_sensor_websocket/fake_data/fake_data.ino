@@ -66,33 +66,33 @@ void paivitaMockKoordinaatit() {
 //z-axis change--> värin muutos, koon muutos
 //x ja y axis --> liikkuminen näytöllä, range määritys frontissa
 
-String muodostaJson() {
-  paivitaMockKoordinaatit();
-  seq++;
+  String muodostaJson() {
+    paivitaMockKoordinaatit();
+    seq++;
 
-  int rssi = random(-90, -40);
+    int rssi = random(-90, -40);
 
-  StaticJsonDocument<512> json;
-  json["type"] = "radio-coordinates";
-  json["sensorModel"] = "XM-125";
-  json["source"] = "esp32-mock";
-  json["seq"] = seq;
-  json["timestampMs"] = millis();
-  json["valid"] = true;
-  json["x"] = xPos;
-  json["y"] = yPos;
-  json["z"] = zPos;
-  json["rssi"] = rssi;
+    StaticJsonDocument<512> json;
+    json["type"] = "radio-coordinates";
+    json["sensorModel"] = "XM-125";
+    json["source"] = "esp32-mock";
+    json["seq"] = seq;
+    json["timestampMs"] = millis();
+    json["valid"] = true;
+    json["x"] = xPos;
+    json["y"] = yPos;
+    json["z"] = zPos;
+    json["rssi"] = rssi;
 
 
-  String data;
-  serializeJson(json, data);
+    String data;
+    serializeJson(json, data);
 
-  Serial.print("MUODOSTETTU JSON: ");
-  Serial.println(data);
+    Serial.print("MUODOSTETTU JSON: ");
+    Serial.println(data);
 
-  return data;
-}
+    return data;
+  }
 
 void setup() {
   Serial.begin(9600);

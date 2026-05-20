@@ -15,8 +15,14 @@ export function SensorProvider({ children }) {
   const [z, setZ] = useState(null);
   const [rssi, setRSSI] = useState(null);
 
+  //AUDIO
+  const [audioAngleDeg, setAudioAngleDeg] = useState(0);
+  const [audioEnergy, setAudioEnergy] = useState(0);
+  const [audioLag, setAudioLag] = useState(0);
+  const [audioTimestampMs, setAudioTimestampMs] = useState(null);
+
   useEffect(() => {
-    const ESP_IP = "ws://172.20.10.6/";
+    const ESP_IP = "ws://172.20.10.9/";
     let ws;
     let cancelled = false;
     let reconnectTimer;
@@ -46,6 +52,14 @@ export function SensorProvider({ children }) {
           if (data.y !== undefined) setY(Number(data.y));
           if (data.z !== undefined) setZ(Number(data.z));
           if (data.rssi !== undefined) setRSSI(Number(data.rssi));
+
+          //AUDIO
+          if (data.type === "audio-angle") {
+          setAudioAngleDeg(Math.max(-90, Math.min(90, Number(data.angle) || 0)));
+          setAudioEnergy(Number(data.energy) || 0);
+          setAudioLag(Number(data.lag) || 0);
+          setAudioTimestampMs(data.timestampMs ?? null);
+        }
         } catch (error) {
           console.error("Message handling failed:", error, event.data);
         }
@@ -88,6 +102,10 @@ export function SensorProvider({ children }) {
         y,
         z,
         rssi,
+        audioAngleDeg,
+        audioEnergy,
+        audioLag,
+        audioTimestampMs,
       }}
     >
       {children}

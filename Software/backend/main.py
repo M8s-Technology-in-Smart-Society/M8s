@@ -82,7 +82,7 @@ async def websocket_endpoint(websocket: WebSocket):
         while True:
             if MODE == "live":
                 try:
-                    data = reader.read()
+                    data = await asyncio.to_thread(reader.read)
                     data["timestamp"] = datetime.now(timezone.utc).isoformat()
                 except Exception as e:
                     data = {

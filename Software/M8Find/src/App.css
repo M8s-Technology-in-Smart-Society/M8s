@@ -1152,3 +1152,359 @@
     transform-origin: bottom center;
   }
 }
+
+/* ===== final simple audio arrow + mobile cleanup ===== */
+
+.simple-audio-arrow {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  z-index: 45;
+  display: grid;
+  place-items: center;
+  gap: 3px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.82);
+  border: 1px solid rgba(255,255,255,0.55);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.18);
+  color: #075f63;
+  pointer-events: none;
+}
+
+.simple-audio-arrow.active {
+  box-shadow: 0 0 32px rgba(249, 115, 22, 0.58);
+}
+
+.simple-audio-arrow-symbol {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(249, 115, 22, 0.18);
+  color: #f97316;
+  font-size: 32px;
+  line-height: 1;
+  transition: transform 0.18s ease;
+}
+
+.simple-audio-arrow-label {
+  font-size: 10px;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.radar2d-overlay {
+  overflow: hidden;
+}
+
+.radar2d-screen {
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 140px);
+}
+
+.radar2d-audio {
+  min-width: 94px !important;
+  max-width: 120px !important;
+  transform: translate(-50%, -50%) scale(0.92);
+}
+
+.radar2d-target-label {
+  max-width: 110px;
+}
+
+/* mobile: UI becomes compact, radar stays centered and does not overflow */
+@media (max-width: 700px) {
+  .webgl_page {
+    overflow: hidden;
+  }
+
+  .UI {
+    top: 8px !important;
+    left: 8px !important;
+    width: min(190px, calc(100vw - 16px)) !important;
+    max-height: 45vh !important;
+    overflow-y: auto !important;
+    gap: 6px !important;
+  }
+
+  .UI_container,
+  .UIA_container {
+    padding: 8px !important;
+    border-radius: 14px !important;
+    font-size: 10px !important;
+    gap: 4px !important;
+  }
+
+  .UI h3 {
+    font-size: 13px !important;
+    margin: 0 0 4px !important;
+  }
+
+  .UI h5 {
+    font-size: 9.5px !important;
+    line-height: 1.15 !important;
+    margin: 2px 0 !important;
+  }
+
+  .UIButton button,
+  .button {
+    font-size: 12px !important;
+    padding: 9px 11px !important;
+    border-radius: 10px !important;
+  }
+
+  .view-toggle {
+    top: 8px !important;
+    right: 8px !important;
+    transform: scale(0.78);
+    transform-origin: top right;
+    z-index: 70 !important;
+  }
+
+  .radar2d-overlay {
+    padding-left: 0 !important;
+    padding-top: 130px !important;
+    align-items: start !important;
+  }
+
+  .radar2d-screen {
+    width: min(88vw, 330px) !important;
+  }
+
+  .radar2d-note {
+    max-width: 88vw !important;
+    font-size: 9px !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+  }
+
+  .radar2d-audio {
+    transform: translate(-50%, -50%) scale(0.75) !important;
+  }
+
+  .radar2d-target-label {
+    transform: translate(4px, -50%) scale(0.78) !important;
+    transform-origin: left center !important;
+  }
+
+  .simple-audio-arrow {
+    bottom: 10px !important;
+    transform: translateX(-50%) scale(0.76) !important;
+    transform-origin: bottom center !important;
+  }
+}
+
+/* phone landscape / small VNC window */
+@media (max-height: 540px) and (orientation: landscape) {
+  .UI {
+    width: 180px !important;
+    max-height: calc(100vh - 16px) !important;
+  }
+
+  .UIA_container {
+    display: none !important;
+  }
+
+  .radar2d-overlay {
+    padding-left: 205px !important;
+    padding-top: 46px !important;
+  }
+
+  .radar2d-screen {
+    width: min(48vw, 300px) !important;
+  }
+
+  .radar2d-note {
+    display: none !important;
+  }
+
+  .simple-audio-arrow {
+    bottom: 8px !important;
+    transform: translateX(-50%) scale(0.68) !important;
+  }
+}
+
+/* ===== final simple audio arrow override ===== */
+
+.simple-audio-arrow,
+.audio-arrow-overlay {
+  display: none !important;
+}
+
+.m8-audio-arrow {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  pointer-events: none;
+}
+
+.m8-audio-arrow-symbol {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.22);
+  color: #94a3b8;
+  border: 2px solid rgba(148, 163, 184, 0.6);
+  font-size: 44px;
+  font-weight: 900;
+  line-height: 1;
+  box-shadow: 0 0 18px rgba(148, 163, 184, 0.25);
+  transition: transform 0.16s ease, color 0.16s ease, background 0.16s ease;
+}
+
+.m8-audio-arrow.active .m8-audio-arrow-symbol {
+  background: rgba(249, 115, 22, 0.22);
+  border-color: rgba(249, 115, 22, 0.95);
+  color: #f97316;
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.65);
+}
+
+.m8-audio-arrow-text {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  color: #075f63;
+  font-size: 10px;
+  font-weight: 950;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Make 2D audio marker disappear cleanly and not leave ghost styling */
+.radar2d-audio {
+  opacity: 1;
+  min-width: 104px !important;
+  max-width: 126px !important;
+  text-align: center !important;
+  padding: 7px 10px !important;
+  border-radius: 14px !important;
+  background: rgba(249, 115, 22, 0.24) !important;
+  border: 1px solid rgba(249, 115, 22, 0.95) !important;
+  color: #fed7aa !important;
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.75) !important;
+  z-index: 8 !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+.radar2d-audio span {
+  display: block;
+  font-size: 9px;
+  line-height: 1;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+}
+
+.radar2d-audio strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 11px;
+  line-height: 1;
+  color: #fff7ed;
+}
+
+/* Mobile final cleanup */
+@media (max-width: 700px) {
+  .m8-audio-arrow {
+    bottom: 10px;
+    transform: translateX(-50%) scale(0.75);
+    transform-origin: bottom center;
+  }
+
+  .radar2d-overlay {
+    padding-left: 0 !important;
+    padding-top: 128px !important;
+    align-items: start !important;
+  }
+
+  .radar2d-screen {
+    width: min(88vw, 330px) !important;
+    max-width: calc(100vw - 20px) !important;
+  }
+
+  .radar2d-note {
+    max-width: 88vw !important;
+    font-size: 9px !important;
+    text-align: center !important;
+  }
+
+  .radar2d-audio {
+    transform: translate(-50%, -50%) scale(0.78) !important;
+  }
+}
+
+@media (max-height: 540px) and (orientation: landscape) {
+  .m8-audio-arrow {
+    bottom: 6px;
+    transform: translateX(-50%) scale(0.65);
+  }
+
+  .radar2d-overlay {
+    padding-left: 205px !important;
+    padding-top: 42px !important;
+  }
+
+  .radar2d-screen {
+    width: min(46vw, 300px) !important;
+  }
+
+  .radar2d-note {
+    display: none !important;
+  }
+}
+
+/* kill all old audio overlays */
+.simple-audio-arrow,
+.audio-arrow-overlay,
+.m8-audio-arrow,
+.radar2d-audio {
+  display: none !important;
+}
+
+/* final 2D audio marker */
+.radar2d-audio-final {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  min-width: 86px;
+  text-align: center;
+  padding: 7px 10px;
+  border-radius: 14px;
+  background: rgba(239, 68, 68, 0.25);
+  border: 1px solid rgba(239, 68, 68, 0.95);
+  color: #fecaca;
+  box-shadow: 0 0 26px rgba(239, 68, 68, 0.75);
+  z-index: 20;
+}
+
+.radar2d-audio-final span {
+  display: block;
+  font-size: 9px;
+  line-height: 1;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+}
+
+.radar2d-audio-final strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
+  line-height: 1;
+  color: #fff;
+}
+
+@media (max-width: 700px) {
+  .radar2d-audio-final {
+    transform: translate(-50%, -50%) scale(0.78);
+  }
+}

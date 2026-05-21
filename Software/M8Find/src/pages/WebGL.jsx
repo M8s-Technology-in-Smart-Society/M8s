@@ -28,52 +28,74 @@ function DistanceGuides3D() {
   );
 }
 
-function AudioArrowOverlay() {
-  const { soundDetected, audioAngleDeg, audioEnergy, audioDirectionLabel, audioDirectionConfidence } = useSensor();
-  const [last, setLast] = useState({
-    active: false,
-    angle: 0,
-    energy: 0,
-    label: "CENTER",
-    confidence: 0,
-    until: 0,
-  });
+function RedAudioArrow() {
+  const { soundDetected, audioAngleDeg } = useSensor();
+  const [lastAngle, setLastAngle] = useState(0);
+  const [holdUntil, setHoldUntil] = useState(0);
+  const [now, setNow] = useState(Date.now());
 
   useEffect(() => {
-    const active = soundDetected || Number(audioEnergy || 0) > 450000;
+    const timer = setInterval(() => setNow(Date.now()), 100);
+    return () => clearInterval(timer);
+  }, []);
 
-    if (active) {
-      setLast({
-        active: true,
-        angle: Math.max(-65, Math.min(65, Number(audioAngleDeg || 0))),
-        energy: Number(audioEnergy || 0),
-        label: audioDirectionLabel || "CENTER",
-        confidence: Number(audioDirectionConfidence || 0),
-        until: Date.now() + 3000,
-      });
+  useEffect(() => {
+    if (soundDetected) {
+      setLastAngle(Math.max(-65, Math.min(65, Number(audioAngleDeg || 0))));
+      setHoldUntil(Date.now() + 3000);
     }
-  }, [soundDetected, audioAngleDeg, audioEnergy, audioDirectionLabel, audioDirectionConfidence]);
+  }, [soundDetected, audioAngleDeg]);
 
-  const visible = last.active && Date.now() < last.until;
-  const angle = visible ? last.angle : 0;
+  const active = now < holdUntil;
+  const angle = active ? lastAngle : 0;
 
   return (
-    <div className={`audio-arrow-overlay ${visible ? "active" : ""}`}>
-      <div className="audio-arrow-title">Audio direction</div>
-      <div className="audio-arrow-compass">
-        <span>LEFT</span>
-        <div
-          className="audio-arrow"
-          style={{ transform: `rotate(${angle}deg)` }}
-        >
-          ?
-        </div>
-        <span>RIGHT</span>
-      </div>
-      <div className="audio-arrow-readout">
-        {visible
-          ? `${last.label} · ${Math.round(angle)}° · ${last.confidence}%`
-          : "waiting for sound"}
+    <div
+      style={{
+        position: "absolute",
+        left: "50%",
+        bottom: "26px",
+        transform: "translateX(-50%)",
+        zIndex: 999,
+        pointerEvents: "none",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "4px",
+      }}
+    >
+      <svg
+        width="78"
+        height="78"
+        viewBox="0 0 100 100"
+        style={{
+          transform: `rotate(${angle}deg)`,
+          transition: "transform 160ms ease",
+          filter: active
+            ? "drop-shadow(0 0 12px rgba(239,68,68,0.9))"
+            : "drop-shadow(0 0 5px rgba(148,163,184,0.5))",
+        }}
+      >
+        <polygon
+          points="50,5 82,60 60,55 60,95 40,95 40,55 18,60"
+          fill={active ? "#ef4444" : "#94a3b8"}
+          stroke="white"
+          strokeWidth="3"
+        />
+      </svg>
+
+      <div
+        style={{
+          background: "rgba(255,255,255,0.82)",
+          color: active ? "#991b1b" : "#075f63",
+          borderRadius: "999px",
+          padding: "3px 9px",
+          fontSize: "10px",
+          fontWeight: 900,
+          letterSpacing: "0.04em",
+        }}
+      >
+        {active ? `${Math.round(angle)}° AUDIO` : "AUDIO"}
       </div>
     </div>
   );
@@ -87,34 +109,33 @@ function Radar2DView() {
     status,
     soundDetected,
     audioAngleDeg,
-    audioEnergy,
     audioDirectionLabel,
     audioDirectionConfidence,
   } = useSensor();
 
+  const [now, setNow] = useState(Date.now());
   const [lastAudio, setLastAudio] = useState({
-    active: false,
     angle: 0,
-    energy: 0,
     label: "CENTER",
     confidence: 0,
     until: 0,
   });
 
   useEffect(() => {
-    const active = soundDetected || Number(audioEnergy || 0) > 450000;
+    const timer = setInterval(() => setNow(Date.now()), 100);
+    return () => clearInterval(timer);
+  }, []);
 
-    if (active) {
+  useEffect(() => {
+    if (soundDetected) {
       setLastAudio({
-        active: true,
         angle: Math.max(-65, Math.min(65, Number(audioAngleDeg || 0))),
-        energy: Number(audioEnergy || 0),
         label: audioDirectionLabel || "CENTER",
         confidence: Number(audioDirectionConfidence || 0),
         until: Date.now() + 3000,
       });
     }
-  }, [soundDetected, audioAngleDeg, audioEnergy, audioDirectionLabel, audioDirectionConfidence]);
+  }, [soundDetected, audioAngleDeg, audioDirectionLabel, audioDirectionConfidence]);
 
   const distance = Math.max(0.2, Math.min(2.0, Math.abs(Number(distanceM ?? 0))));
   const radius = presence ? (distance / 2.0) * 36 : 0;
@@ -124,7 +145,7 @@ function Radar2DView() {
     status === "MONITORING" ? "#facc15" :
     "#38bdf8";
 
-  const audioVisible = lastAudio.active && Date.now() < lastAudio.until;
+  const audioVisible = now < lastAudio.until;
   const audioAngle = audioVisible ? lastAudio.angle : 0;
 
   const audioRadius = 34;
@@ -146,14 +167,14 @@ function Radar2DView() {
 
         {audioVisible && (
           <div
-            className="radar2d-audio"
+            className="radar2d-audio-final"
             style={{
               left: `${audioX}%`,
               top: `${audioY}%`,
             }}
           >
             <span>AUDIO {lastAudio.label}</span>
-            <strong>{Math.round(audioAngle)}° · {lastAudio.confidence}%</strong>
+            <strong>{Math.round(audioAngle)}°</strong>
           </div>
         )}
 
@@ -177,14 +198,14 @@ function Radar2DView() {
               }}
             >
               <span>Radar target</span>
-              <strong>~{Math.abs(distance).toFixed(2)} m</strong>
+              <strong>~{distance.toFixed(2)} m</strong>
             </div>
           </>
         )}
       </div>
 
       <div className="radar2d-note">
-        Radar target = XM125 · Audio marker = microphone direction · approximate PoC visualization
+        Radar target = XM125 · Audio marker = microphone direction
       </div>
     </div>
   );
@@ -207,7 +228,7 @@ export default function WebGLScene() {
         </div>
       )}
 
-      {viewMode === "3d" && <AudioArrowOverlay />}
+      {viewMode === "3d" && <RedAudioArrow />}
       {viewMode === "2d" && <Radar2DView />}
 
       <div className="view-toggle">

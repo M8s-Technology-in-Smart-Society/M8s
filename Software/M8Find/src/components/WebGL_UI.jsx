@@ -28,6 +28,11 @@ export default function WebGL_UI() {
     audioLag,
   } = useSensor();
 
+  const fusionEstimate = Math.min(
+    100,
+    Math.round(Number(confidence ?? 0) + (soundDetected ? 8 : 0))
+  );
+
   const statusColor =
     status === "DETECTED" ? "#008f5a" :
     status === "MONITORING" ? "#d97706" :
@@ -43,10 +48,13 @@ export default function WebGL_UI() {
           <h5>Connection: {connectionStatus}</h5>
           <h5>Mode: {mode ?? "No data"}</h5>
           <h5>Presence: {presence ? "YES" : "NO"}</h5>
-          <h5>Confidence: {confidence !== null ? `${Number(confidence).toFixed(1)}%` : "No data"}</h5>
-          <h5>Distance: {distanceM !== null ? `~${Number(distanceM).toFixed(2)} m` : "No target"}</h5>
+          <h5>Radar confidence: {confidence !== null ? `${Number(confidence).toFixed(1)}%` : "No data"}</h5>
+          <h5>Fusion estimate: {fusionEstimate}%</h5>
+          <h5>Distance: {distanceM !== null ? `~${Math.abs(Number(distanceM)).toFixed(2)} m` : "No target"}</h5>
           <h5>Breathing: {breathingDetected ? `YES (${breathingRateBpm ?? "?"} BPM)` : "No lock"}</h5>
-          <h5>Sound/knock: {soundDetected ? "Detected" : "No event"}</h5>
+          <h5>Audio activity: {soundDetected ? "Detected" : "No event"}</h5>
+          <h5>Audio angle: {Number(audioAngleDeg ?? 0).toFixed(1)}°</h5>
+          <h5>Audio energy: {audioEnergy}</h5>
 
           {error && <h5 style={{ color: "#b91c1c" }}>Warning: {error}</h5>}
 
@@ -69,7 +77,7 @@ export default function WebGL_UI() {
           <h5>Status: ESP32 USB bridge</h5>
           <h5>Energy: {audioEnergy} dB</h5>
           <h5>Lag: {audioLag}</h5>
-          <h5>Angle: {audioAngleDeg}°</h5>
+          <h5>Angle: {Number(audioAngleDeg ?? 0).toFixed(1)}°</h5>
         </div>
 
         <div className="UIButton">

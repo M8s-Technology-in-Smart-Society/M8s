@@ -1,38 +1,59 @@
-// components/Arrow.jsx
-import { useEffect, useMemo, useRef } from "react";
-import { useThree } from "@react-three/fiber";
+import { useRef } from "react";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useSensor } from "../context/SensorContext";
 
 export default function Arrow() {
-  const { scene } = useThree();
-  const { audioAngleDeg } = useSensor();
-  const arrowRef = useRef(null);
+  const { soundDetected, audioAngleDeg, audioEnergy } = useSensor();
+  const groupRef = useRef();
+  const matRef = useRef();
 
-  const origin = useMemo(() => new THREE.Vector3(0, -2.3, 6.5), []);
-  const color = 0xff4444;
-  const length = 5;
+  useFrame(() => {
+    if (!groupRef.current || !matRef.current) return;
 
-  useEffect(() => {
-    const initialDir = new THREE.Vector3(0, 0, 1);
-    const arrow = new THREE.ArrowHelper(initialDir, origin, length, color, 0.5, 0.3);
-    arrowRef.current = arrow;
-    scene.add(arrow);
+    const angle = Math.max(-65, Math.min(65, Number(audioAngleDeg || 0)));
+    const active = soundDetected || Number(audioEnergy || 0) > 450000;
 
-    return () => {
-      scene.remove(arrow);
-    };
-  }, [scene, origin]);
+    // Arrow sits low and points forward, then pans left/right by audio angle.
+    const targetYRotation = THREE.MathUtils.degToRad(angle);
+    groupRef.current.rotation.y = THREE.MathUtils.lerp(
+      groupRef.current.rotation.y,
+      targetYRotation,
+      0.16
+    );
 
-  useEffect(() => {
-    if (!arrowRef.current) return;
+    const color = active ? "#f97316" : "#94a3b8";
+    matRef.current.color.lerp(new THREE.Color(color), 0.16);
+    matRef.current.emissive.lerp(new THREE.Color(color), 0.16);
 
-    const radians = THREE.MathUtils.degToRad(-audioAngleDeg);
-    const dir = new THREE.Vector3(Math.sin(radians), 0, -Math.cos(radians)).normalize();
+    const pulse = active ? 1.15 + Math.sin(Date.now() / 120) * 0.08 : 0.9;
+    groupRef.current.scale.lerp(new THREE.Vector3(pulse, pulse, pulse), 0.12);
+  });
 
-    arrowRef.current.setDirection(dir);
-    arrowRef.current.setLength(length, 0.5, 0.3);
-  }, [audioAngleDeg]);
+  return (
+    <group ref={groupRef} position={[0, -2.05, 3.25]} rotation={[0, 0, 0]}>
+      {/* shaft pointing forward */}
+      <mesh position={[0, 0, -0.45]}>
+        <boxGeometry args={[0.12, 0.12, 0.95]} />
+        <meshStandardMaterial
+          ref={matRef}
+          color="#94a3b8"
+          emissive="#94a3b8"
+          emissiveIntensity={0.75}
+        />
+      </mesh>
 
-  return null;
+      {/* arrow head */}
+      <mesh position={[0, 0, -1.05]} rotation={[Math.PI / 2, 0, 0]}>
+        <coneGeometry args={[0.28, 0.62, 32]} />
+        <meshStandardMaterial color="#f97316" emissive="#f97316" emissiveIntensity={0.7} />
+      </mesh>
+
+      {/* base dot */}
+      <mesh position={[0, 0, 0.1]}>
+        <sphereGeometry args={[0.11, 24, 24]} />
+        <meshStandardMaterial color="#94a3b8" emissive="#94a3b8" emissiveIntensity={0.4} />
+      </mesh>
+    </group>
+  );
 }

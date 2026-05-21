@@ -17,17 +17,19 @@ export function SensorProvider({ children }) {
   const [error, setError] = useState(null);
   const [lastFrameAt, setLastFrameAt] = useState(null);
 
-  // Legacy 3D coordinates for existing WebGL components.
   const [x, setX] = useState(null);
   const [y, setY] = useState(null);
   const [z, setZ] = useState(null);
   const [rssi, setRSSI] = useState(null);
 
-  // Audio placeholders, ready for ESP32 bridge integration.
   const [audioAngleDeg, setAudioAngleDeg] = useState(0);
   const [audioEnergy, setAudioEnergy] = useState(0);
   const [audioLag, setAudioLag] = useState(0);
   const [audioTimestampMs, setAudioTimestampMs] = useState(null);
+  const [audioDirectionZone, setAudioDirectionZone] = useState(0);
+  const [audioDirectionConfidence, setAudioDirectionConfidence] = useState(0);
+  const [audioDirectionLabel, setAudioDirectionLabel] = useState("CENTER");
+  const [audioConnected, setAudioConnected] = useState(false);
 
   useEffect(() => {
     const WS_URL =
@@ -66,27 +68,30 @@ export function SensorProvider({ children }) {
           setError(data.error ?? null);
           setSensorModel(`XM125 A121 (${data.mode ?? data.source ?? "unknown"})`);
 
+          setAudioConnected(Boolean(data.audio_connected));
+          setAudioAngleDeg(Math.max(-90, Math.min(90, Number(data.audio_angle_deg ?? data.angle ?? 0))));
+          setAudioEnergy(Number(data.audio_energy ?? data.energy ?? 0));
+          setAudioLag(Number(data.audio_lag ?? data.lag ?? 0));
+          setAudioDirectionZone(Number(data.audio_direction_zone ?? data.direction_zone ?? 0));
+          setAudioDirectionConfidence(Number(data.audio_direction_confidence ?? data.direction_confidence ?? 0));
+          setAudioDirectionLabel(data.audio_direction_label ?? "CENTER");
+          setAudioTimestampMs(data.timestampMs ?? null);
+
+          if (data.raw?.inter_presence_score !== undefined && data.raw.inter_presence_score !== null) {
+            setRSSI(Number(data.raw.inter_presence_score));
+          }
+
           if (data.presence && data.distance_m !== null && data.distance_m !== undefined) {
-            const distance = Math.max(0.2, Math.min(2.0, Number(data.distance_m)));
+            const distance = Math.max(0.2, Math.min(2.0, Math.abs(Number(data.distance_m))));
             const conf = Math.max(0, Math.min(100, Number(data.confidence ?? 50)));
 
-            // Original visualization expects:
-            // x: 0–2.5, y: 0–100, z: 0–1
-            setX(distance);              // left/right radar position
-            setY(conf);                  // confidence height
-            setZ(distance / 2.0);        // normalized depth
+            setX(distance);
+            setY(conf);
+            setZ(distance / 2.0);
           } else {
             setX(null);
             setY(null);
             setZ(null);
-          } 
-
-          // Future ESP32 microphone bridge format.
-          if (data.type === "audio-angle") {
-            setAudioAngleDeg(Math.max(-90, Math.min(90, Number(data.angle) || 0)));
-            setAudioEnergy(Number(data.energy) || 0);
-            setAudioLag(Number(data.lag) || 0);
-            setAudioTimestampMs(data.timestampMs ?? null);
           }
         } catch (err) {
           console.error("WebSocket message handling failed:", err, event.data);
@@ -137,17 +142,19 @@ export function SensorProvider({ children }) {
         lastFrameAt,
         stale,
 
-        // legacy WebGL values
         x,
         y,
         z,
         rssi,
 
-        // audio
+        audioConnected,
         audioAngleDeg,
         audioEnergy,
         audioLag,
         audioTimestampMs,
+        audioDirectionZone,
+        audioDirectionConfidence,
+        audioDirectionLabel,
       }}
     >
       {children}

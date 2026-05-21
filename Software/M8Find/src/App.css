@@ -427,3 +427,444 @@
   color: #075f63;
   margin-bottom: 6px;
 }
+
+.distance-scale {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 18px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.78);
+  backdrop-filter: blur(8px);
+  font-size: 12px;
+  font-weight: 800;
+  color: #075f63;
+  z-index: 20;
+}
+.view-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 30;
+  display: flex;
+  gap: 8px;
+  padding: 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.78);
+  backdrop-filter: blur(8px);
+}
+
+.view-toggle button {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-weight: 900;
+  background: transparent;
+  color: #075f63;
+  cursor: pointer;
+}
+
+.view-toggle button.active {
+  background: #075f63;
+  color: white;
+}
+
+.distance-scale {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  z-index: 25;
+  display: flex;
+  gap: 14px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.78);
+  backdrop-filter: blur(8px);
+  color: #075f63;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.radar2d-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  z-index: 8;
+}
+
+.radar2d-screen {
+  position: relative;
+  width: min(58vw, 520px);
+  aspect-ratio: 1 / 1;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle, rgba(20,184,166,0.14) 0%, rgba(7,95,99,0.18) 45%, rgba(2,6,23,0.94) 100%);
+  border: 1px solid rgba(20,184,166,0.45);
+  overflow: hidden;
+  box-shadow: 0 0 70px rgba(20,184,166,0.16);
+}
+
+.radar2d-ring {
+  position: absolute;
+  border: 1px solid rgba(20,184,166,0.38);
+  border-radius: 999px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.radar2d-ring span {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  color: rgba(226,232,240,0.75);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.radar2d-ring.r05 { width: 25%; height: 25%; }
+.radar2d-ring.r10 { width: 45%; height: 45%; }
+.radar2d-ring.r15 { width: 65%; height: 65%; }
+.radar2d-ring.r20 { width: 85%; height: 85%; }
+
+.radar2d-sweep {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 44%;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(34,197,94,0.95), transparent);
+  transform-origin: left center;
+  animation: radarSweep 2.6s linear infinite;
+}
+
+.radar2d-target {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+}
+
+.radar2d-wall {
+  position: absolute;
+  left: 50%;
+  top: 49%;
+  transform: translateX(-50%);
+  width: 72%;
+  height: 2px;
+  background: rgba(226,232,240,0.5);
+  color: rgba(226,232,240,0.8);
+  font-size: 10px;
+  font-weight: 900;
+  text-align: center;
+  padding-top: 6px;
+}
+
+.radar2d-note {
+  margin-top: 14px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.78);
+  color: #075f63;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+@keyframes radarSweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ===== 2D / 3D final display cleanup ===== */
+
+.webgl_page.is-2d-mode .canvas_layer {
+  display: none !important;
+}
+
+.webgl_page.is-2d-mode {
+  background:
+    radial-gradient(circle at center, rgba(20,184,166,0.14), transparent 42%),
+    #020617;
+}
+
+.view-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 60;
+  display: flex;
+  gap: 8px;
+  padding: 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.82);
+  backdrop-filter: blur(8px);
+}
+
+.view-toggle button {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-weight: 900;
+  background: transparent;
+  color: #075f63;
+  cursor: pointer;
+}
+
+.view-toggle button.active {
+  background: #075f63;
+  color: white;
+}
+
+.radar2d-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  z-index: 8;
+  padding-left: 360px;
+  box-sizing: border-box;
+}
+
+.radar2d-screen {
+  position: relative;
+  width: min(48vw, 500px);
+  aspect-ratio: 1 / 1;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle, rgba(20,184,166,0.14) 0%, rgba(7,95,99,0.18) 45%, rgba(2,6,23,0.96) 100%);
+  border: 1px solid rgba(20,184,166,0.45);
+  overflow: hidden;
+  box-shadow: 0 0 70px rgba(20,184,166,0.16);
+}
+
+.radar2d-ring {
+  position: absolute;
+  border: 1px solid rgba(20,184,166,0.35);
+  border-radius: 999px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.radar2d-ring.r05 { width: 24%; height: 24%; }
+.radar2d-ring.r10 { width: 44%; height: 44%; }
+.radar2d-ring.r15 { width: 64%; height: 64%; }
+.radar2d-ring.r20 { width: 84%; height: 84%; }
+
+.radar2d-axis {
+  position: absolute;
+  background: rgba(20,184,166,0.2);
+}
+
+.radar2d-axis.vertical {
+  width: 1px;
+  height: 100%;
+  left: 50%;
+}
+
+.radar2d-axis.horizontal {
+  height: 1px;
+  width: 100%;
+  top: 50%;
+}
+
+.radar2d-sweep {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 44%;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(34,197,94,0.95), transparent);
+  transform-origin: left center;
+  animation: radarSweep 2.6s linear infinite;
+}
+
+.radar2d-target {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  z-index: 3;
+}
+
+.radar2d-target-label {
+  position: absolute;
+  min-width: 90px;
+  transform: translate(8px, -50%);
+  color: #e5e7eb;
+  font-size: 11px;
+  line-height: 1.1;
+  font-weight: 800;
+  z-index: 4;
+}
+
+.radar2d-target-label::before {
+  content: "";
+  position: absolute;
+  left: -38px;
+  top: 50%;
+  width: 34px;
+  height: 1px;
+  background: rgba(229,231,235,0.8);
+}
+
+.radar2d-target-label span {
+  display: block;
+  color: rgba(226,232,240,0.65);
+  text-transform: uppercase;
+  font-size: 9px;
+}
+
+.radar2d-target-label strong {
+  display: block;
+  color: #ffffff;
+  font-size: 13px;
+}
+
+.radar2d-wall {
+  position: absolute;
+  left: 50%;
+  top: 49%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 2px;
+  background: rgba(226,232,240,0.45);
+  color: rgba(226,232,240,0.78);
+  font-size: 10px;
+  font-weight: 900;
+  text-align: center;
+  padding-top: 7px;
+  letter-spacing: 0.04em;
+}
+
+.radar2d-note {
+  margin-top: 14px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.82);
+  color: #075f63;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+@keyframes radarSweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 900px) {
+  .radar2d-overlay {
+    padding-left: 0;
+    padding-top: 160px;
+  }
+
+  .radar2d-screen {
+    width: min(80vw, 420px);
+  }
+}
+
+/* ===== final responsive visual cleanup ===== */
+
+.radar2d-target-label::before {
+  display: none !important;
+}
+
+.radar2d-target-label {
+  background: rgba(2, 6, 23, 0.72);
+  border: 1px solid rgba(226,232,240,0.22);
+  border-radius: 10px;
+  padding: 6px 8px;
+  backdrop-filter: blur(6px);
+}
+
+@media (max-width: 900px) {
+  .UI {
+    width: min(220px, calc(100vw - 20px));
+    top: 10px;
+    left: 10px;
+    bottom: auto;
+    max-height: 48vh;
+    overflow-y: auto;
+  }
+
+  .UI_container,
+  .UIA_container {
+    padding: 10px;
+    font-size: 11px;
+    gap: 6px;
+  }
+
+  .UI h3 {
+    font-size: 15px;
+    margin: 0 0 4px;
+  }
+
+  .UI h5 {
+    font-size: 11px;
+    margin: 2px 0;
+  }
+
+  .view-toggle {
+    top: 10px;
+    right: 10px;
+    transform: scale(0.88);
+    transform-origin: top right;
+  }
+
+  .radar2d-overlay {
+    padding-left: 0 !important;
+    padding-top: 150px;
+    align-items: start;
+  }
+
+  .radar2d-screen {
+    width: min(82vw, 360px);
+  }
+
+  .radar2d-note {
+    max-width: 82vw;
+    text-align: center;
+    font-size: 10px;
+  }
+
+  .radar2d-target-label {
+    font-size: 10px;
+    min-width: 78px;
+    transform: translate(6px, -50%);
+  }
+
+  .radar2d-target-label strong {
+    font-size: 11px;
+  }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .UI {
+    width: 190px;
+    max-height: calc(100vh - 20px);
+  }
+
+  .UIA_container {
+    display: none;
+  }
+
+  .view-toggle {
+    transform: scale(0.8);
+  }
+
+  .radar2d-overlay {
+    padding-top: 30px;
+    padding-left: 220px !important;
+  }
+
+  .radar2d-screen {
+    width: min(46vw, 330px);
+  }
+}

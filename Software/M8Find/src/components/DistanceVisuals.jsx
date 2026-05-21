@@ -6,102 +6,29 @@ function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
 }
 
-function remap(value, inMin, inMax, outMin, outMax) {
-  const clamped = clamp(value, inMin, inMax);
-  const t = (clamped - inMin) / (inMax - inMin);
-  return outMin + t * (outMax - outMin);
-}
-
-function getVisualsFromZ(z) {
-  const d = clamp(z ?? 5, 0, 7);
-
-  let color = "#ffffff";
-  let scale = 1.0;
-
-  if (d < 1) {
-    color = "#ef4444";
-    scale = 5;
-  } else if (d >= 1 && d < 2) {
-    color = "#eb6912";
-    scale = 4;
-  } else if (d >= 2 && d < 3) {
-    color = "#fff70d";
-    scale = 3;
-  } else if (d >= 3 && d < 4) {
-    color = "#22c55e";
-    scale = 2;
-  } else if (d >= 4 && d < 5) {
-    color = "#0023bd";
-    scale = 1.0;
-  } else if (d >= 5 && d < 7) {
-    color = "#07d6ff";
-    scale = 0.5;
-  } else {
-    color = "#be00a1";
-    scale = 0.5;
-  }
-
-  return {
-    color,
-    scale: clamp(scale, 0.1, 10),
-  };
-}
-
-// Expected incoming coordinate range from sensor/mock feed
-const SENSOR_BOUNDS = {
-  minX: -50,
-  maxX: 50,
-  minY: -50,
-  maxY: 50,
-  minZ: 0,
-  maxZ: 10,
-};
-
-// Visual area in the 3D scene, shifted to the right side
-const SCENE_BOUNDS = {
-  minX: 1.8,
-  maxX: 5.8,
-  minY: -2.3,
-  maxY: 2.3,
-  minZ: 0,
-  maxZ: 4.5,
-};
-
-function DetectionSphere({ detection, index }) {
+function DetectionSphere({ detection }) {
   const groupRef = useRef();
   const materialRef = useRef();
 
   const target = useMemo(() => {
-    const visuals = getVisualsFromZ(detection.z);
+    const distance = clamp(Number(detection.z ?? 0.5), 0, 1);
+    const confidence = clamp(Number(detection.y ?? 50), 0, 100);
 
-    const mappedX = remap(
-      detection.x,
-      SENSOR_BOUNDS.minX,
-      SENSOR_BOUNDS.maxX,
-      SCENE_BOUNDS.minX,
-      SCENE_BOUNDS.maxX
-    );
+    const color =
+      confidence > 75 ? "#22c55e" :
+      confidence > 45 ? "#facc15" :
+      "#38bdf8";
 
-    const mappedY = remap(
-      detection.y,
-      SENSOR_BOUNDS.minY,
-      SENSOR_BOUNDS.maxY,
-      SCENE_BOUNDS.minY,
-      SCENE_BOUNDS.maxY
-    );
-
-    const mappedZ = remap(
-      detection.z,
-      SENSOR_BOUNDS.minZ,
-      SENSOR_BOUNDS.maxZ,
-      SCENE_BOUNDS.maxZ,
-      SCENE_BOUNDS.minZ
-    );
+    const scale = 0.45 + (1 - distance) * 1.2 + confidence / 180;
 
     return {
-      color: visuals.color,
-      scale: visuals.scale,
-      position: new THREE.Vector3(mappedX, mappedY, mappedZ),
+      color,
+      scale,
+      position: new THREE.Vector3(
+        3.8,
+        -0.8 + confidence / 45,
+        3.8 - distance * 4.2
+      ),
     };
   }, [detection]);
 
@@ -109,7 +36,6 @@ function DetectionSphere({ detection, index }) {
     if (!groupRef.current || !materialRef.current) return;
 
     groupRef.current.position.lerp(target.position, 0.12);
-
     groupRef.current.scale.lerp(
       new THREE.Vector3(target.scale, target.scale, target.scale),
       0.12
@@ -122,33 +48,32 @@ function DetectionSphere({ detection, index }) {
   return (
     <group ref={groupRef}>
       <mesh>
-        <circleGeometry args={[0.12, 65]} />
+        <sphereGeometry args={[0.22, 32, 32]} />
         <meshStandardMaterial
           ref={materialRef}
-          color="#ffffff"
+          color={target.color}
           emissive={target.color}
-          emissiveIntensity={0.25}
+          emissiveIntensity={0.75}
+          transparent
+          opacity={0.92}
         />
       </mesh>
 
+      <mesh rotation={[Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[0.36, 0.39, 48]} />
+        <meshBasicMaterial color={target.color} transparent opacity={0.55} />
+      </mesh>
     </group>
   );
 }
 
-
 export default function DistanceVisuals({ detections }) {
-  const sortedDetections = useMemo(() => {
-    return [...detections].sort((a, b) => a.z - b.z);
-  }, [detections]);
+  const latest = useMemo(() => detections.slice(0, 4), [detections]);
 
   return (
     <>
-      {sortedDetections.map((detection) => (
-        <DetectionSphere
-          key={detection.id}
-          detection={detection}
-
-        />
+      {latest.map((detection) => (
+        <DetectionSphere key={detection.id} detection={detection} />
       ))}
     </>
   );

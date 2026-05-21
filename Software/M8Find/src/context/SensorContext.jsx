@@ -66,21 +66,20 @@ export function SensorProvider({ children }) {
           setError(data.error ?? null);
           setSensorModel(`XM125 A121 (${data.mode ?? data.source ?? "unknown"})`);
 
-          if (data.raw?.inter_presence_score !== undefined && data.raw.inter_presence_score !== null) {
-            setRSSI(Number(data.raw.inter_presence_score));
-          }
-
-          // Convert radar distance to a simple WebGL marker.
-          // x/y/z kept for old visual components.
           if (data.presence && data.distance_m !== null && data.distance_m !== undefined) {
-            setX(Number(data.distance_m));
-            setY(Number(data.confidence ?? 50));
-            setZ(Number(data.distance_m));
+            const distance = Math.max(0.2, Math.min(2.0, Number(data.distance_m)));
+            const conf = Math.max(0, Math.min(100, Number(data.confidence ?? 50)));
+
+            // Original visualization expects:
+            // x: 0–2.5, y: 0–100, z: 0–1
+            setX(distance);              // left/right radar position
+            setY(conf);                  // confidence height
+            setZ(distance / 2.0);        // normalized depth
           } else {
             setX(null);
             setY(null);
             setZ(null);
-          }
+          } 
 
           // Future ESP32 microphone bridge format.
           if (data.type === "audio-angle") {

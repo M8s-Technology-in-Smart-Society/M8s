@@ -15,6 +15,7 @@ function App() {
       <Route path="/about" element={<About />} />
       <Route path="/connect" element={<Connect />} />
       <Route path="/WebGL" element={<WebGL />} />
+      <Route path="/webgl" element={<WebGL />} />
     </Routes>
   )
 }

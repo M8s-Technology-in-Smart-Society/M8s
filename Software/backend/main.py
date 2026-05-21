@@ -22,6 +22,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+reader = None
+reader_error = None
+reader_start_lock = asyncio.Lock()
+reader_read_lock = asyncio.Lock()
+
 
 @app.get("/health")
 def health():
@@ -30,6 +35,47 @@ def health():
         "service": "m8find-backend",
         "mode": MODE,
         "serial_port": SERIAL_PORT,
+        "sensor_ready": reader is not None and reader_error is None,
+        "sensor_error": reader_error,
+    }
+
+
+async def ensure_reader_started():
+    global reader, reader_error
+
+    if MODE != "live":
+        return
+
+    async with reader_start_lock:
+        if reader is not None:
+            return
+
+        try:
+            reader = XM125Reader(serial_port=SERIAL_PORT)
+            await asyncio.to_thread(reader.start)
+            reader_error = None
+        except Exception as e:
+            reader = None
+            reader_error = str(e)
+
+
+def error_frame(message: str):
+    return {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "source": "xm125",
+        "presence": False,
+        "distance_m": None,
+        "confidence": 0,
+        "breathing_detected": False,
+        "breathing_rate_bpm": None,
+        "sound_detected": False,
+        "status": "CLEAR",
+        "mode": "live",
+        "error": message,
+        "raw": {
+            "inter_presence_score": None,
+            "intra_presence_score": None,
+        },
     }
 
 
@@ -70,39 +116,28 @@ def make_mock_frame(t: int):
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
-
-    reader = None
     t = 0
 
     try:
-        if MODE == "live":
-            reader = XM125Reader(serial_port=SERIAL_PORT)
-            reader.start()
+        await ensure_reader_started()
 
         while True:
             if MODE == "live":
-                try:
-                    data = await asyncio.to_thread(reader.read)
-                    data["timestamp"] = datetime.now(timezone.utc).isoformat()
-                except Exception as e:
-                    data = {
-                        "timestamp": datetime.now(timezone.utc).isoformat(),
-                        "source": "xm125",
-                        "presence": False,
-                        "distance_m": None,
-                        "confidence": 0,
-                        "breathing_detected": False,
-                        "breathing_rate_bpm": None,
-                        "sound_detected": False,
-                        "status": "CLEAR",
-                        "mode": "live",
-                        "error": str(e),
-                        "raw": {
-                            "inter_presence_score": None,
-                            "intra_presence_score": None,
-                        },
-                    }
+                if reader is None:
+                    data = error_frame(reader_error or f"XM125 not available on {SERIAL_PORT}")
                     await asyncio.sleep(0.5)
+                else:
+                    try:
+                        async with reader_read_lock:
+                            data = await asyncio.to_thread(reader.read)
+
+                        data["timestamp"] = datetime.now(timezone.utc).isoformat()
+                        data["mode"] = "live"
+                        data["source"] = data.get("source", "xm125")
+                        data["error"] = None
+                    except Exception as e:
+                        data = error_frame(str(e))
+                        await asyncio.sleep(0.5)
             else:
                 data = make_mock_frame(t)
                 t += 1
@@ -112,6 +147,3 @@ async def websocket_endpoint(websocket: WebSocket):
 
     except WebSocketDisconnect:
         pass
-    finally:
-        if reader:
-            reader.stop()

@@ -275,3 +275,155 @@
 
 
 }
+/* ===== M8Find clean startup screen ===== */
+
+.boot-page {
+  min-height: 100vh;
+  width: 100vw;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at top, rgba(125,255,245,0.22), transparent 34%),
+    linear-gradient(135deg, #075f63 0%, #0f172a 100%);
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.boot-shell {
+  width: min(92vw, 640px);
+  background: rgba(255,255,255,0.86);
+  border-radius: 36px;
+  padding: 34px;
+  text-align: center;
+  box-shadow: 0 28px 80px rgba(0,0,0,0.28);
+}
+
+.boot-logo-large {
+  width: clamp(180px, 34vw, 300px);
+  display: block;
+  margin: 0 auto 8px;
+}
+
+.boot-shell h1 {
+  margin: 0;
+  color: #063f46;
+  font-size: clamp(3.4rem, 9vw, 6rem);
+  line-height: 0.9;
+}
+
+.boot-description {
+  max-width: 540px;
+  margin: 12px auto 22px;
+  color: #334155;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.boot-meta {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.boot-meta div,
+.boot-row {
+  background: rgba(7,95,99,0.08);
+  border-radius: 16px;
+  padding: 11px 13px;
+  text-align: left;
+}
+
+.boot-meta span,
+.boot-row span {
+  display: block;
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.boot-meta strong,
+.boot-row strong {
+  display: block;
+  color: #063f46;
+  font-size: 0.9rem;
+}
+
+.boot-check-list {
+  display: grid;
+  gap: 7px;
+  margin: 14px 0 18px;
+}
+
+.boot-row {
+  display: grid;
+  grid-template-columns: 12px 1fr auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.boot-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: #94a3b8;
+}
+
+.boot-row.ok .boot-dot { background: #00a86b; }
+.boot-row.checking .boot-dot { background: #d97706; }
+.boot-row.fail .boot-dot { background: #dc2626; }
+
+.boot-row em {
+  font-style: normal;
+  font-size: 0.68rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.boot-start,
+.boot-about {
+  width: 100%;
+  border: 0;
+  border-radius: 18px;
+  padding: 15px 18px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.boot-start {
+  background: #075f63;
+  color: white;
+}
+
+.boot-start:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.boot-about {
+  margin-top: 10px;
+  background: transparent;
+  color: #075f63;
+}
+
+.boot-ready { color: #00a86b !important; }
+.boot-loading { color: #d97706 !important; }
+
+@media (max-width: 560px) {
+  .boot-meta {
+    grid-template-columns: 1fr;
+  }
+}
+
+.engineering-details {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(7, 95, 99, 0.25);
+}
+
+.engineering-details summary {
+  cursor: pointer;
+  font-weight: 900;
+  color: #075f63;
+  margin-bottom: 6px;
+}

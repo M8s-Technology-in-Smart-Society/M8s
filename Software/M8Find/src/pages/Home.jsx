@@ -132,6 +132,9 @@ function Home() {
         >
           {ready ? 'Start Detection' : 'Preparing system...'}
         </button>
+        <button className="boot-about" onClick={() => navigate('/about')}>
+        About project
+        </button>
       </div>
     </div>
   )

@@ -124,15 +124,21 @@ function DetectionSphere({ detection, index }) {
   return (
     <group ref={groupRef}>
       <mesh>
-        <circleGeometry args={[0.12, 65]} />
+        <sphereGeometry args={[0.12, 32, 32]} />
         <meshStandardMaterial
           ref={materialRef}
           color="#ffffff"
           emissive={target.color}
-          emissiveIntensity={0.25}
+          emissiveIntensity={0.75}
+          transparent
+          opacity={0.95}
         />
       </mesh>
 
+      <mesh>
+        <ringGeometry args={[0.18, 0.2, 48]} />
+        <meshBasicMaterial color={target.color} transparent opacity={0.55} />
+      </mesh>
     </group>
   );
 }
